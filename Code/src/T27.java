@@ -9,7 +9,7 @@ public class T27 {
     TreeNode head = null; //表示的树中当前的访问的相对跟节点
     TreeNode realHead = null;  //表示的是真正的链表的头;
 
-    // 最好的解法
+    // 最好的解法,妙在用两个全局变量保存链表的头结点,和每次访问的pre结点,这样就不会陷入递归结果返回难的的问题;
     public TreeNode Convert(TreeNode pRootOfTree) {
         ConvertSub(pRootOfTree);
         return realHead;
@@ -21,17 +21,22 @@ public class T27 {
         if (pRootOfTree == null) return;
 
         ConvertSub(pRootOfTree.left);
+
+
         if (head == null) { //只执行了一次,用来确定最终返回的 realHead,!!!
             head = pRootOfTree;
             realHead = pRootOfTree;
         } else {
             head.right = pRootOfTree;
             pRootOfTree.left = head;
+
             head = pRootOfTree;
         }
 
         ConvertSub(pRootOfTree.right);
     }
+
+
 
     //---------其它的解法
     //非递归方法
@@ -57,19 +62,24 @@ public class T27 {
                 p.left = pre;
                 pre = p;
             }
+
             p = p.right;
         }
         return root;
     }
 
-    // 递归方法
+
+
+
+
+    // -----------------------递归方法--------------------------------------
     public TreeNode Convert2(TreeNode root) {
         if(root==null)
             return null;
         if(root.left==null&&root.right==null)
             return root;
         // 1.将左子树构造成双链表，并返回链表头节点
-        TreeNode left = Convert(root.left);
+        TreeNode left = Convert2(root.left);
         TreeNode p = left;
         // 2.定位至左子树双链表最后一个节点
         while(p!=null&&p.right!=null){
@@ -81,7 +91,7 @@ public class T27 {
             root.left = p;
         }
         // 4.将右子树构造成双链表，并返回链表头节点
-        TreeNode right = Convert(root.right);
+        TreeNode right = Convert2(root.right);
         // 5.如果右子树链表不为空的话，将该链表追加到root节点之后
         if(right!=null){
             right.left = root;
@@ -102,7 +112,7 @@ public class T27 {
             return root;
         }
         // 1.将左子树构造成双链表，并返回链表头节点
-        TreeNode left = Convert(root.left);
+        TreeNode left = Convert3(root.left);
         // 3.如果左子树链表不为空的话，将当前root追加到左子树链表
         if(left!=null){
             leftLast.right = root;
@@ -110,7 +120,7 @@ public class T27 {
         }
         leftLast = root;// 当根节点只含左子树时，则该根节点为最后一个节点
         // 4.将右子树构造成双链表，并返回链表头节点
-        TreeNode right = Convert(root.right);
+        TreeNode right = Convert3(root.right);
         // 5.如果右子树链表不为空的话，将该链表追加到root节点之后
         if(right!=null){
             right.left = root;
