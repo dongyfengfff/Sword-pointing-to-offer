@@ -12,12 +12,31 @@ import java.util.Stack;
  * 在理解这里的递归时,要注意 所有叶子节点也有左右子节点,只不过是null;
  * <p>
  * 本题重点考察对递归的理解以及对递归的使用场景!!!
+ *
+ * 这里实现了根据前序和中序重构;后续和中序重构;
+ * 难点在于根据前序和后序的重构,参考左老师的方法;
  */
 public class T06 {
+
+    /***
+     * 使用前序和中序数组构建二叉树
+     * @param pre
+     * @param in
+     * @return
+     */
     public TreeNode reConstructBinaryTree(int[] pre, int[] in) {
         return reConstructBinaryTree(pre, 0, pre.length - 1, in, 0, in.length - 1);
     }
 
+    /***
+     * @param pre
+     * @param startPre
+     * @param endPre
+     * @param in
+     * @param startIn
+     * @param endIn
+     * @return
+     */
     private TreeNode reConstructBinaryTree(int[] pre, int startPre, int endPre, int[] in, int startIn, int endIn) {
 
         if (startPre > endPre || startIn > endIn)
@@ -27,6 +46,7 @@ public class T06 {
 
         for (int i = startIn; i <= endIn; i++) {
             if (in[i] == pre[startPre]) {
+                //其实区间的确定这里一个简单的理解是: 前序遍历的数组中的区域,不好算,你先算中序遍历数组的区域,这都是左/右子树的长度,都是一样的;
                 root.left = reConstructBinaryTree(pre, startPre + 1, startPre + i - startIn, in, startIn, i - 1);
                 root.right = reConstructBinaryTree(pre, i - startIn + startPre + 1, endPre, in, i + 1, endIn);
             }
@@ -36,6 +56,36 @@ public class T06 {
         return root;
     }
 
+//**********************************************************************
+
+    /***
+     * 使用后序的中序数组重构二叉树
+     * @param post
+     * @param in
+     * @return
+     */
+    public TreeNode reConstructBinaryTreeByPostAndIn(int[] post, int[] in) {
+        return reConstructBinaryTreeByPostAndInCore(post, 0, post.length - 1, in, 0, in.length - 1);
+    }
+
+    public TreeNode reConstructBinaryTreeByPostAndInCore(int[] post, int postStart, int postEnd, int[] in, int
+            inStart, int inEnd) {
+        if (postStart > postEnd || inStart > inEnd) {
+            return null;
+        }
+
+        TreeNode head = new TreeNode(post[postEnd]);
+        for (int i = inStart; i < inEnd; i++) {
+            if (in[i] == post[postEnd]) {
+                //left的长度:inStart~i-1;right的长度:i+1~inEnd
+                head.left = reConstructBinaryTreeByPostAndInCore(post, postStart, postStart + (i - 1 - inStart), in,
+                        inStart, i - 1);
+                head.right = reConstructBinaryTreeByPostAndInCore(post, (postEnd - 1 - (inEnd - i - 1)), postEnd - 1,
+                        in, i + 1, inEnd);
+            }
+        }
+        return head;
+    }
 
     //##################使用递归的方式进行遍历###################
 
@@ -140,7 +190,7 @@ public class T06 {
     }
 
 
-    //**************************非递归的方法,逻辑比较清晰**********************************
+    //**************************非递归的方法,逻辑比较清晰(By 左老师)**********************************
 
 
     /*
@@ -149,6 +199,9 @@ public class T06 {
     2. 把 cur 压入栈中,对以 cur 为头的整棵树来说,依次把 cur.left 压入栈中,再令 cur = cur.left
     3. 不断重复2步骤,直到 cur == null,此时从 stack 中弹出一个节点 赋值给 cur,打印 cur 的值,然后领 cur = cur.right,重复步骤2
     4. 当整个 stack 为空,且 cur == null ,结束
+
+    其实压栈的过程并不是终须遍历的过程,而是在第三部,打印的过程,整个打印的顺序才是遍历的顺序;
+    而栈中存的数据一直都是二叉树的左子树那一列,存了多列;
     */
     void inOrder2(TreeNode node) {
         if (node == null) {
@@ -330,7 +383,9 @@ public class T06 {
         node6.right = null;
 
         T06 t = new T06();
-       /* System.out.print("中序遍历:");
+
+
+        /*System.out.print("中序遍历:");
         t.inOrder(node0);
         System.out.println();
         System.out.print("中序遍历:");
@@ -351,13 +406,26 @@ public class T06 {
         System.out.print("后序遍历:");
         t.postOrder1(node0);
         System.out.println();*/
+
+        int[] in = {4, 2, 5, 1, 6, 3, 7};
+        int[] pre = {1, 2, 4, 5, 3, 6, 7};
+        int[] post = {4, 5, 2, 6, 7, 3, 1};
+
+        t.postOrder(node0);
+        System.out.println();
+        t.postOrder(t.reConstructBinaryTree(pre,in));
+        System.out.println();
+        t.preOder(node0);
+        System.out.println();
+        t.preOder(t.reConstructBinaryTreeByPostAndIn(post,in));
+
         /*t.preOder1(node0);
         System.out.println();
         t.preOrder2(node0);*/
 
-        t.postOrder2_1(node0);
+        /*t.postOrder2_1(node0);
         System.out.println();
-        t.postOrder2_2(node0);
+        t.postOrder2_2(node0);*/
 
 
     }
