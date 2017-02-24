@@ -18,22 +18,23 @@ public class T22 {
         int indexA = 0, indexB = 0;
         Stack<Integer> stack = new Stack<Integer>();
         for (; indexA < lenA; indexA++) {
-            if (pushA[indexA] != popA[indexB]) {
-                if (!stack.isEmpty()){
-                    if(stack.peek()==popA[indexB]){
+            if (pushA[indexA] != popA[indexB]) {  //重点考察的是不相等的情况;
+                if (!stack.isEmpty()) {
+                    if (stack.peek() == popA[indexB]) {
                         stack.pop();
                         indexB++;
                     }
                 }
+                //NOTE:关键问题出在这里,即使i<>j不相等,但是i-1和j相等,依然算匹配到了,首先把i-1,pop出来,但还是要把i对应的值push进去
                 stack.push(pushA[indexA]);
-            } else {
+            } else { //值相等,什么也不做,让i++,j++;
                 indexB++;
             }
         }
 
         for (; indexB < lenB; indexB++) {
-            if (popA[indexB]!= stack.pop()){
-                return  false;
+            if (popA[indexB] != stack.pop()) {
+                return false;
             }
         }
 
@@ -41,8 +42,42 @@ public class T22 {
     }
 
     public static void main(String[] args) {
-        int[] a = {1,2,3,4,5};
-        int[] b = {4,5,3,2,1};
-        System.out.println(new T22().IsPopOrder(a,b));
+        int[] a = {1, 2, 3, 4, 5};
+        int[] b = {4, 5, 3, 2, 1};
+        System.out.println(new T22().IsPopOrder(a, b));
+    }
+
+
+    public boolean IsPopOrder1(int[] pushA, int[] popA) {
+        int lenA = pushA.length;
+        int lenB = popA.length;
+        if (lenA != lenB) {
+            return false;
+        }
+
+        int i = 0, j = 0;
+        Stack<Integer> s = new Stack<Integer>();
+        for (; i < lenA; i++) {
+            //先考虑相等的情况,那么什么也不做;
+            if (pushA[i] == popA[j]) {
+                j++;
+            } else { //现在的前提是:当前的 A[i] 和 B[j] 的数不相等;
+                if ((!s.isEmpty()) && (s.peek()==popA[j])) {
+                    s.pop();
+                    j++;
+                    i--;
+                } else {
+                    return false;
+                }
+            }
+        }
+
+        while (!s.isEmpty()&&j<lenB){
+            if (s.pop()!=popA[j]){
+                return false;
+            }
+            j++;
+        }
+        return true;
     }
 }

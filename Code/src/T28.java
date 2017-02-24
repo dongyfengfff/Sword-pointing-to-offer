@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * Author: zhangxin
@@ -17,6 +16,7 @@ import java.util.Arrays;
  * 所以核心的步骤就是交换位置,理解了这个原理,那么求子字符串的时候,也是先固定子字符串的第一个字符,求一篇,然后进行交换;
  *
  * fixme:按字典序输出并没有实现,全排列的实现方法还需要掌握
+ * NOTE:按照字典序可是使用库函数将其排序,重要的是先收集所有可能的字符串,而这一步现在使用递归已经解决了,请参考最后的ByZX的方案,递归的思路很简单;
  */
 public class T28 {
     ArrayList<String> list = new ArrayList<String>();
@@ -25,9 +25,9 @@ public class T28 {
     public ArrayList<String> Permutation(String str) {
         cs = str.toCharArray();
         collect(cs, 0, cs.length - 1);
-        String[] ss = (String[]) list.toArray();
-        Arrays.sort(ss);
-        return null ;
+        /*String[] ss = (String[]) list.toArray();  //这里类型强转不了???,那不行就for赋值吧;
+        Arrays.sort(ss);*/
+        return list ;
     }
 
     private void collect(char[] cs, int start, int end) {
@@ -107,14 +107,45 @@ public class T28 {
     public static void main(String args[]) {
         int a[] = {1, 1, 2, 3};
         T28 t = new T28();
-        t.temp = a;
+       /* t.temp = a;
         t.perm(temp, 0, 3);
-        System.out.println(t.n);
+        System.out.println(t.n);*/
         System.out.println("****************");
-        String s = "aabc";
+        String s = "ddkgj";
         System.out.println(t.Permutation(s));
+        t.list.clear();
+        //String s = "aac";
+        System.out.println(new T28().Permutation_ByZX(s));
     }
 
 
+    //########我自己实现的递归方法
 
+    public ArrayList<String> Permutation_ByZX(String str) {
+        cs = str.toCharArray();
+        func(0);
+        return list;
+    }
+
+    //用递归的方法,实现全排列;假设这个func已经写好了,那你也得有参数的返回啊;
+    private void func(int start){
+        if (start==cs.length-1) {
+            list.add(new String(cs));
+            return ;
+        }
+        func(start+1);//表示首位固定啊;
+        for (int i = start+1; i<cs.length; i++) {
+            if (cs[start]!=cs[i]) {
+                swap_ByZX(start,i);
+                func(start+1);
+                swap_ByZX(start,i);
+            }
+        }
+    }
+
+    void swap_ByZX(int i,int j){
+        char tmp = cs[i];
+        cs [i] = cs[j];
+        cs[j] = tmp;
+    }
 }

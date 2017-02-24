@@ -14,7 +14,7 @@ public class T14 {
         int len = array.length;
         Stack<Integer> s = new Stack<Integer>();
 
-        int even = 0;
+        int even = 0; //第一个偶数的位置;
         for (; even < len; even++) {
             if ((array[even] & 1) == 0) {
                 //这是一个偶数
@@ -24,7 +24,7 @@ public class T14 {
         }
 
         for (int i = even + 1; i < len; i++) {
-            if ((array[i]&1)==1){
+            if ((array[i]&1)==1){  //奇数
                 array[even] = array[i];
                 even++;
             }else {

@@ -1,9 +1,11 @@
+import java.util.HashMap;
+
 /**
  * Author: zhangxin
  * Time: 2016/11/23 0023.
- * Desc:数组中有一个数字出现的次数超过数组长度的一半，请找出这个数字。
+ * Desc:数组中有一个数字出现的次数超过数组长度的一半，请找出这个数字。如果不存在这个数,返回0;
  * 例如输入一个长度为9的数组{1,2,3,2,2,2,5,4,2}。由于数字2在数组中出现了5次，超过数组长度的一半，因此输出2。
- * 如果不存在则输出0。
+ * 如果不存在则输出0。  NOTE:这个题目最坑的一点是:都说了找超过一半的,最后又说可能不存在超过一半的情况;
  * <p>
  * <p>
  * 两个思路:
@@ -61,4 +63,21 @@ public class T29 {
         System.out.println(t.MoreThanHalfNum_Solution2(a));
     }
 
+
+    //使用HashMap
+    public int MoreThanHalfNum_Solution3(int[] array) {
+        HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
+        for (int i = 0; i < array.length; i++) {
+            if (map.containsKey(array[i])) {
+                int count = map.get(array[i]) + 1;
+                map.put(array[i], count);
+                if (count > array.length / 2) {
+                    return array[i];
+                }
+            } else {
+                map.put(array[i], 1);
+            }
+        }
+        return 0;
+    }
 }

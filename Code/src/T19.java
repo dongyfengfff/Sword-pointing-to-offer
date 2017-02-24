@@ -19,6 +19,8 @@ import java.util.Queue;
  * 11 9 7  5
  */
 public class T19 {
+    //使用一个队列,将节点按顺序添加能进去
+    //取出时执行swap操作;直到队列为null;
     public void Mirror(TreeNode root) {
         if (root == null) {
             return;
@@ -55,5 +57,19 @@ public class T19 {
         Mirror1(root.left);
         Mirror1(root.right);
         swapNode(root);
+    }
+
+
+    //后来写的递归的版本,主要是分步骤走;
+    public void Mirror2(TreeNode root) {
+        //终止条件
+        if (root == null) {
+            return ;
+        }
+        Mirror2(root.left);
+        Mirror2(root.right);
+        TreeNode tmp = root.left;
+        root.left = root.right;
+        root.right = tmp;
     }
 }

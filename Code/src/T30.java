@@ -80,4 +80,45 @@ public class T30 {
         System.out.println(t.GetLeastNumbers_Solution(a, 4));
 
     }
+
+    // 最小堆的标准写法,请背熟
+    private int[] heapSort(int[] array) {
+        int len = array.length;
+        for (int i = len / 2 - 1; i >= 0; i--) {  //这里定 i 的起始位置, i 必须等于 长度/2-1;
+            sink(array, i, len);
+        }
+
+        //len = len-1; //深坑啊,先len-1,其实这里没有进行统一,到底len是代表长度,还是最后的索引,没有区分开;
+
+        for (int i = len - 1; i > 0; i--) {
+            int tmp = array[0];
+            array[0] = array[i];
+            array[i] = tmp;
+            sink(array, 0, --len);
+        }
+        return array;
+    }
+
+    //下沉,用来构建最小堆 ,算了,在这里统一一下,这个len代表数组的长度,
+    private void sink(int[] array, int i, int len) {
+        int tmp;
+        int j = 2 * i + 1; //i的左子节点;
+        while (j < len) {
+            //证明j不是最后一个元素,也就说还有右子节点;
+            if (j < len - 1 && array[j] > array[j + 1]) {
+                j++;
+            }
+
+            if (array[i] > array[j]) {
+                tmp = array[i];
+                array[i] = array[j];
+                array[j] = tmp;
+
+                i = j;
+                j = 2 * i + 1;
+            } else {
+                break;
+            }
+        }
+    }
 }

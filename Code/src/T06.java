@@ -29,6 +29,7 @@ public class T06 {
     }
 
     /***
+     * 曾经在写这一段递归的时候忘了Core的参数该如何写,这里首先要明确要实现的功能是什么,已经接下来一定要假设已经实现了该功能,可以正常使用了;
      * @param pre
      * @param startPre
      * @param endPre
@@ -52,14 +53,13 @@ public class T06 {
             }
         }
 
-
         return root;
     }
 
 //**********************************************************************
 
     /***
-     * 使用后序的中序数组重构二叉树
+     * 使用后序和中序数组重构二叉树
      * @param post
      * @param in
      * @return
@@ -89,6 +89,21 @@ public class T06 {
 
     //##################使用递归的方式进行遍历###################
 
+    //前序遍历
+     /*
+     关于递归的说辞:假设实现了该方法func(node),可以进行前序遍历打印的功能;首先解决最终情况:如果node==null,那么直接return,这没什么好说的;
+     接下来处理流程:中序: 中->左->右,其实我们拿到的参数就是一个中,那么先直接把这个中打印出来吧,整个树分为三部分:左中右;
+     剩下左右两个了,可我们不是已经实现了func()方法来打印吗,直接调用func(node.left)和func(node.right);
+    */
+    void preOder(TreeNode node) {
+        if (node == null) {
+            return;
+        }
+        System.out.print(node.val + " ");
+        preOder(node.left);
+        preOder(node.right);
+    }
+
     //中序遍历
     void inOrder(TreeNode node) {
         if (node == null) {
@@ -100,15 +115,7 @@ public class T06 {
 
     }
 
-    //前序遍历
-    void preOder(TreeNode node) {
-        if (node == null) {
-            return;
-        }
-        System.out.print(node.val + " ");
-        preOder(node.left);
-        preOder(node.right);
-    }
+
 
     //后续遍历
     void postOrder(TreeNode node) {

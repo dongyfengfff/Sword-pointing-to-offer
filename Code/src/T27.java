@@ -6,13 +6,13 @@ import java.util.Stack;
  * Desc:输入一棵二叉搜索树，将该二叉搜索树转换成一个排序的双向链表。要求不能创建任何新的结点，只能调整树中结点指针的指向。
  */
 public class T27 {
-    TreeNode head = null; //表示的树中当前的访问的相对跟节点
-    TreeNode realHead = null;  //表示的是真正的链表的头;
+    TreeNode head = null; //表示的是真正的链表的头; 最后要返回这个节点;
+    TreeNode pre = null;  //表示的树中当前的访问的节点的前一个节点;
 
-    // 最好的解法,妙在用两个全局变量保存链表的头结点,和每次访问的pre结点,这样就不会陷入递归结果返回难的的问题;
+    // 最好的解法,最优解!!!妙在用两个全局变量保存链表的头结点,和每次访问的pre结点,这样就不会陷入递归结果返回难的的问题;
     public TreeNode Convert(TreeNode pRootOfTree) {
         ConvertSub(pRootOfTree);
-        return realHead;
+        return head;
     }
 
     // 记得中序遍历怎么写吧,当时只是把它打印出来了,现在把打印的步骤变为修改指向的操作
@@ -25,12 +25,12 @@ public class T27 {
 
         if (head == null) { //只执行了一次,用来确定最终返回的 realHead,!!!
             head = pRootOfTree;
-            realHead = pRootOfTree;
+            pre = pRootOfTree;
         } else {
-            head.right = pRootOfTree;
-            pRootOfTree.left = head;
+            pre.right = pRootOfTree;
+            pRootOfTree.left = pre;
 
-            head = pRootOfTree;
+            pre = pRootOfTree;
         }
 
         ConvertSub(pRootOfTree.right);
@@ -118,7 +118,7 @@ public class T27 {
             leftLast.right = root;
             root.left = leftLast;
         }
-        leftLast = root;// 当根节点只含左子树时，则该根节点为最后一个节点
+        leftLast = root;// 当根节点只含左子树时，则该根节点为最后一个节点(其实右就是遍历根下的节点中访问的最后一个节点,你每访问一个节点就赋值一次,那么等你到根时,leftLast肯定是根中的右;)
         // 4.将右子树构造成双链表，并返回链表头节点
         TreeNode right = Convert3(root.right);
         // 5.如果右子树链表不为空的话，将该链表追加到root节点之后
@@ -128,4 +128,9 @@ public class T27 {
         }
         return left!=null?left:root;
     }
+
+
+
+    //我自己写的递归方法;
+
 }
