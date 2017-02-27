@@ -20,6 +20,14 @@ import java.util.Queue;
     Q3：将 x * 3、x*5 分别放入Q3 Q5，从Q3中移除x
     Q5：将 x * 5放入Q5，从Q5中移除x
 6）重复步骤4~6，知道找到第k个元素
+
+
+这个题目再写一遍好像也没什么技巧,记住吧;
+为什么要执行步骤(5),拿队列q5来举例子,这个队列中只能存放 ugly * 5 的数字,不能是随便一个n都*5吧,都则不满足ugly的特性了;
+那么既然要 *5,我们用谁 *5呢?自然是上次取到的ugly,上次去到的ugly是最小的;
+而对于q3,同样保存的是ugly*3,但是有一个问题是:如果上次的ugly是5,那q3要不要把 ugly*5 放进去?
+不能放进去,因为ugly是5的话,对于q3来说并不一定是最小的,因为添加到q3中的是: 5*3,但是之前ugly是3的时候,已经将3*5添加到q5中去了
+为了避免重复元素,所以...
 */
 
 public class T34 {
@@ -28,7 +36,7 @@ public class T34 {
             return 0;
         }
         int ugly = 1;
-        int cur = 1, count = 1;
+        int count = 1;
         Queue<Integer> q2 = new LinkedList<Integer>();
         Queue<Integer> q3 = new LinkedList<Integer>();
         Queue<Integer> q5 = new LinkedList<Integer>();
@@ -38,24 +46,25 @@ public class T34 {
         q5.add(5);
 
         while (count < index) {
+            //先取到当前三个队列最前面的最小值,作为此次的ugly
             ugly = Math.min(q2.peek(), Math.min(q3.peek(), q5.peek()));
+            //找到ugly之后还要判断是在那个队列中
+            //如果是在q2中,那么
             if (ugly == q2.peek()) {
-                q2.add(ugly * 2);
-                q3.add(ugly * 3);
-                q5.add(ugly * 5);
+                q2.offer(ugly * 2);
+                q3.offer(ugly * 3);
+                q5.offer(ugly * 5);
                 q2.poll();
             } else if (ugly == q3.peek()) {
-                q3.add(ugly * 3);
-                q5.add(ugly * 5);
+                q3.offer(ugly * 3);
+                q5.offer(ugly * 5);
                 q3.poll();
             } else {
-                q5.add(ugly * 5);
+                q5.offer(ugly * 5);
                 q5.poll();
             }
             count++;
         }
         return ugly;
     }
-
-
 }

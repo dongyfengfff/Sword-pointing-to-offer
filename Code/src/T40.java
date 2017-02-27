@@ -7,6 +7,8 @@
  * <p>
  * <p>
  * 解题思路:先考虑只有一个数字出现了一次,其余都出现了两次,如何处理???  使用位运算...
+ * 整体进行异或一次,结果就是那两个不同的数的异或值,肯定不为0,然后从右到左找到第一个为1的位,表明两个不同的数在该位一个是0一个是1;
+ * 按照这个把所有的数分成两组,那么相同的数肯定在一组,并且两个不同的数肯定不在一组,然后每一组内部进行异或,得到结果;
  */
 public class T40 {
     public void FindNumsAppearOnce(int[] array, int num1[], int num2[]) {
@@ -39,5 +41,6 @@ public class T40 {
     public static void main(String[] args) {
         int i = 1;
         System.out.println(i << 1);
+        System.out.println(1^3);
     }
 }

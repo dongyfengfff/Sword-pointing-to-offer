@@ -2,6 +2,7 @@
  * Author: zhangxin
  * Time: 2016/11/23 0023.
  * Desc:两个链表的第一个公共点;
+ * 首先分别遍历两个链表,得到两个链表的长度len1和len2;
  */
 public class T37 {
     public ListNode FindFirstCommonNode(ListNode pHead1, ListNode pHead2) {
@@ -41,5 +42,21 @@ public class T37 {
             p2 = p2.next;
         }
         return null;
+    }
+
+    public static void main(String[] args) {
+        ListNode node1 = new ListNode(1);
+        node1.next = new ListNode(2);
+        node1.next.next = new ListNode(3);
+        func(node1);
+    }
+
+    static void func(ListNode head){
+        int i = 0;
+        while (head!=null){
+            i++;
+            head = head.next;
+        }
+        System.out.println(i);
     }
 }

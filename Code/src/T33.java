@@ -7,6 +7,8 @@ import java.util.Comparator;
  * Desc:将数组中的数拼接成最小的数
  * 例如输入数组{3，32，321}，则打印出这三个数字能排成的最小数字为321323
  * 3 32 > 32 3 说明:32小,即 a+b > b+a => a>b
+ *
+ * NOTE:属性Array.sort的使用方法,已经两个重要的接口: Comparator 和 Comparable
  */
 public class T33 {
     public String PrintMinNumber(int[] numbers) {
@@ -39,3 +41,9 @@ public class T33 {
         System.out.println(t.PrintMinNumber(a));
     }
 }
+
+/*
+一个重要的接口: Comparable,其中包含一个方法:public int compareTo(T o); 返回值 >0: o小   ==0: ; <0: o大 ;而String 正好实现了该接口;
+
+一个重要的接口:Comparator;其中包含一个方法:public int compare(T o1, T o2); 返回值: <0:o1<o2;  =0:o1=o1; >0:o1>o2
+ */
