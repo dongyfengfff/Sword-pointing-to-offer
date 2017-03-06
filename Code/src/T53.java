@@ -92,5 +92,8 @@ public class T53 {
         T53 t = new T53();
         // "",".*"  "","."
         System.out.println(t.match1("aa".toCharArray(), "a*".toCharArray()));
+
+        StringBuilder sb = new StringBuilder();
+
     }
 }

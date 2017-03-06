@@ -7,6 +7,11 @@ import java.util.Queue;
  * Time: 2016/11/27 0027.
  * Desc:把二叉树打成多行
  * 从上到下按层打印二叉树，同一层结点从左至右输出。每一层输出一行。
+ *
+ *
+ * 设计到按照行区分,两个思路:
+ * 两个队列,一个队列放一行
+ * 采用计数,pre,cur来计算;  更喜欢这个;
  */
 public class T60 {
     ArrayList<ArrayList<Integer>> Print(TreeNode pRoot) {
@@ -85,6 +90,78 @@ public class T60 {
         n7.right = null;
 
         T60 t = new T60();
-        System.out.println(t.Print(n1));
+        System.out.println(t.Print3(n1));
+    }
+
+    //方法2,比方法1好,使用了一个end变量来标记每一行的尾吧; xxxxxx
+    //方法2的思路严重错误,设置了end,如果end的左右子节点都为null,此时下一行的end就错乱了,还是老老实实用两个queue吧...
+    ArrayList<ArrayList<Integer>> Print2(TreeNode pRoot) {
+        ArrayList<ArrayList<Integer>> lists = new ArrayList<ArrayList<Integer>>();
+        if (pRoot==null) {
+            return lists;
+        }
+
+        Queue<TreeNode> queue = new LinkedList<TreeNode>();
+        TreeNode end = pRoot;
+        queue.offer(pRoot);
+        ArrayList<Integer> list = new ArrayList<Integer>();
+        while (!queue.isEmpty()) {
+            TreeNode node = queue.poll();
+            list.add(node.val);
+            if (node == end) {
+                lists.add(list);
+                list = new ArrayList<Integer>();
+                if (node.left!=null) {
+                    queue.offer(node.left);
+                    end = node.left;
+                }
+                if (node.right!=null) {
+                    queue.offer(node.right);
+                    end = node.right;
+                }
+            }else{
+                if (node.left!=null) {
+                    queue.offer(node.left);
+                }
+                if (node.right!=null) {
+                    queue.offer(node.right);
+                }
+            }
+        }
+        return lists;
+    }
+
+    //计数器的方法;pre,cur;
+    ArrayList<ArrayList<Integer>> Print3(TreeNode pRoot) {
+        ArrayList<ArrayList<Integer>> lists = new ArrayList<ArrayList<Integer>>();
+        if (pRoot==null) {
+            return lists;
+        }
+
+        Queue<TreeNode> queue = new LinkedList<TreeNode>();
+        queue.offer(pRoot);
+        int pre = 1,cur = 0;
+
+        while (!queue.isEmpty()){
+            ArrayList<Integer> list = new ArrayList<Integer>();
+            for (int i = 0; i < pre; i++) {
+                TreeNode node = queue.poll();
+                list.add(node.val);
+
+                if (node.left!=null) {
+                    queue.offer(node.left);
+                    cur++;
+                }
+                if (node.right!=null) {
+                    queue.offer(node.right);
+                    cur++;
+                }
+            }
+            lists.add(list);
+            pre = cur;
+            cur = 0;
+        }
+
+        return lists;
     }
 }

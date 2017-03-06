@@ -27,6 +27,7 @@ public class T36 {
         return count % 1000000007;
     }
 
+    //递归调用了排序
     private void sort(int[] a, int lo, int hi) {
         // System.out.println(lo+"-"+hi);
         if (hi <= lo) return;  //注意返回的条件;
@@ -36,6 +37,7 @@ public class T36 {
         merge(a, lo, mid, hi);
     }
 
+    //merge过程;核心的计数功能在此实现;
     public void merge(int[] a, int lo, int mid, int hi) {
         //分别代表两个子数组的起点;
         int i = lo;
@@ -54,7 +56,7 @@ public class T36 {
                 a[k] = aux[i++];
             } else if (aux[i] > aux[j]) {
                 a[k] = aux[j++];
-                count += mid - i + 1;
+                count += mid - i + 1;  //表明从i~mid间的索引都是大于j的;这里只是针对j,因为对于j+1,就不知道了;
                 count = count % 1000000007;
             } else {
                 a[k] = aux[i++];

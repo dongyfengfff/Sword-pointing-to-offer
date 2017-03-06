@@ -11,6 +11,9 @@ public class T59 {
     }
 
     //使用递归来判断是否是对称的;
+    //递归,首先明确一点,这个方法的功能传入两个节点,用来判断以这两个节点为根的**两棵树**是不是镜像对称的;
+    //如何分步?首先传进来的肯定是两棵树的根,(现在要考虑成两棵树,不要想成一棵树)要判断的是node1的left和node2的right是否是;同时node1的right和node2的left是不是;
+    //终止条件如下;
     private boolean isSymmetrical(TreeNode p1, TreeNode p2) {
         if(p1==null&&p2==null){
             return true;

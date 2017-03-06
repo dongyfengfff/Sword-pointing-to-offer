@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Stack;
 
 /**
@@ -7,6 +8,8 @@ import java.util.Stack;
  * Desc:按之字顺序打印二叉树
  * 请实现一个函数按照之字形打印二叉树
  * 即第一行按照从左到右的顺序打印，第二层按照从右至左的顺序打印，第三行按照从左到右的顺序打印，其他行以此类推。
+ *
+ * 第二次想着用上次打印多行的,也用一个cur和pre,但是这个用之字,使用两个栈,这样就不用计数了,直接用栈的大小本身就可以计数;
  */
 public class T61 {
     public ArrayList<ArrayList<Integer>> Print(TreeNode pRoot) {
@@ -49,6 +52,7 @@ public class T61 {
                 flag = true;
             }
         }
+        LinkedList list = new LinkedList();
         return lists;
     }
 }

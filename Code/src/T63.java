@@ -115,6 +115,39 @@ public class T63 {
 
         T63 t = new T63();
         //System.out.println(t.KthNode(n1, 1).val);
-        t.inOrder1(n1,2);
+//        t.inOrder1(n1,2);
+        System.out.println(t.findK(7,n1).val);
+    }
+
+
+    //######################使用的递归二叉树的方法做的,不是很好实现;
+    boolean flag ;
+    int count ;
+    TreeNode nodeK = null;
+    public TreeNode findK(int k,TreeNode root){
+        count = k;
+        findCore(root);
+        return nodeK;
+    }
+
+    public void findCore(TreeNode root){
+        if (root==null) {
+            return ;
+        }
+        if (!flag) {
+            findCore(root.left);
+        }else{
+            return;
+        }
+        count--;
+        if (count==0) {
+            nodeK = root;
+            flag = true;
+        }
+        if (!flag) {
+            findCore(root.right);
+        }else{
+            return;
+        }
     }
 }

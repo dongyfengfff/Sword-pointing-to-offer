@@ -4,10 +4,12 @@
  * Desc:
  * 1. 翻转单词顺序,hello world => world hello
  * 1. 左旋字符串, (abcde,2) => cdeab
+ * NOTE:经典题目,一定要会啊;需要注意的是:不知道两边是否有空格,那么手动给两边都加上一个空格;
+ * 首先将整个字符串进行翻转,然后将每个单词在进行反转...
  */
 public class T42 {
 
-    public String ReverseSentence(String str) {
+    public String ReverseSentence0(String str) {
         if (str.length() == 0) {
             return "";
         }
@@ -49,7 +51,7 @@ public class T42 {
         }
     }
 
-    void swap(char[] array, int start, int end) {
+    void swap0(char[] array, int start, int end) {
         char c = array[start];
         array[start] = array[end];
         array[end] = c;
@@ -59,8 +61,8 @@ public class T42 {
 
     public static void main(String[] args) {
         T42 t = new T42();
-        //System.out.println(t.ReverseSentence(" "));
-        System.out.println(t.LeftRotateString("abcdef",3));
+        System.out.println(t.ReverseSentence("ab cd"));
+//        System.out.println(t.LeftRotateString("abcdef",3));
     }
 
     public String LeftRotateString(String str, int n) {
@@ -72,5 +74,53 @@ public class T42 {
         reverse(array,n,str.length()-1);
         reverse(array,0,str.length()-1);
         return new String(array);
+    }
+
+
+
+    public String ReverseSentence(String str) {
+        if(str==null||str.length()<2){
+            return str;
+        }
+        char[] cs = (" "+str+" ").toCharArray();
+        swap(cs,0,cs.length-1);
+        int start = findFirst(cs,0);
+        int end = findLast(cs,start);
+        while(start>0){
+            swap(cs,start,end-1);
+            start = findFirst(cs,end);
+            end = findLast(cs,start);
+        }
+        return new String(cs,1,str.length());
+    }
+
+    //第一个不为空格的位置;
+    private int findFirst(char[] cs,int start){
+        for(int i = start;i<cs.length;i++){
+            if(cs[i]!=' '){
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    //第一个为空格的位置;
+    private int findLast(char[] cs,int start){
+        for(int i = start+1;i<cs.length;i++){
+            if(cs[i]==' '){
+                return i;
+            }
+        }
+        return cs.length;
+    }
+
+    private void swap(char[] cs,int start,int end){
+        while(start<end){
+            char tmp = cs[start];
+            cs[start] = cs[end];
+            cs[end] = tmp;
+            start++;
+            end--;
+        }
     }
 }

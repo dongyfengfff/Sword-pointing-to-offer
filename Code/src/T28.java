@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 
 /**
  * Author: zhangxin
@@ -16,7 +18,7 @@ import java.util.ArrayList;
  * 所以核心的步骤就是交换位置,理解了这个原理,那么求子字符串的时候,也是先固定子字符串的第一个字符,求一篇,然后进行交换;
  *
  * fixme:按字典序输出并没有实现,全排列的实现方法还需要掌握
- * NOTE:按照字典序可是使用库函数将其排序,重要的是先收集所有可能的字符串,而这一步现在使用递归已经解决了,请参考最后的ByZX的方案,递归的思路很简单;
+ * NOTE:按照字典序可是使用库函数将其排序,重要的是先收集所有可能的字符串,而这一步现在使用递归已经解决了,请参考最后的ByZX的方案,递归的思路很简单;但是这个思路依然有严重bug,无法避免一些重复结果;
  */
 public class T28 {
     ArrayList<String> list = new ArrayList<String>();
@@ -111,19 +113,30 @@ public class T28 {
         t.perm(temp, 0, 3);
         System.out.println(t.n);*/
         System.out.println("****************");
-        String s = "ddkgj";
+        String s = "abbc";
         System.out.println(t.Permutation(s));
         t.list.clear();
         //String s = "aac";
         System.out.println(new T28().Permutation_ByZX(s));
+        //Arrays.sort();
     }
 
 
-    //########我自己实现的递归方法
+    //########我自己实现的递归方法#####################################################################
 
     public ArrayList<String> Permutation_ByZX(String str) {
         cs = str.toCharArray();
+        Arrays.sort(cs);  //为了实现全排列,先将原始的字符串重新排列一下;下面的方法的输出就是字典序了;
+        for (char c: cs){
+            System.out.println(c);
+        }
         func(0);
+        System.out.println(list.size());
+        HashSet<String> set = new HashSet<String>();
+        for(String s:list){
+            set.add(s);
+        }
+        System.out.println(set.size());
         return list;
     }
 

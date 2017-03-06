@@ -4,6 +4,8 @@
  * Desc:二叉树的下一个节点
  * 给定一个二叉树和其中的一个结点，请找出中序遍历顺序的下一个结点并且返回。
  * 注意，树中的结点不仅包含左右子结点，同时包含指向父结点的指针。
+ *
+ * 要分析的情况很多,很容易在面试中问到,这个很费时间...
  */
 class TreeLinkNode {
     int val;
@@ -27,6 +29,7 @@ public class T58 {
             return pNode;
         }
 
+        //执行到这一步,说明pNode没有右子节点;
         //(2), 没有右子节点,找父节点,先考虑一种特殊情况,本身是根节点,又没有右子节点,
         TreeLinkNode parent = pNode.next;
         if (parent == null) {

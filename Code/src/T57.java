@@ -6,6 +6,10 @@
  * 例如，链表1->2->3->3->4->4->5 处理后为 1->2->5
  * <p>
  * 注意:只要是重复的节点,都删掉,一个不留;
+ *
+ *
+ *
+ * NOTE:跳过重复节点的算法实现逻辑有点复杂,多练习;
  */
 public class T57 {
 
@@ -44,26 +48,81 @@ public class T57 {
 
     public static void main(String[] args) {
         ListNode n1 = new ListNode(1);
-        ListNode n2 = new ListNode(1);
+/*        ListNode n2 = new ListNode(2);
         ListNode n3 = new ListNode(2);
         ListNode n4 = new ListNode(3);
         ListNode n5 = new ListNode(3);
         ListNode n6 = new ListNode(4);
         ListNode n7 = new ListNode(4);
+        ListNode n8 = new ListNode(5);
         n1.next = n2;
         n2.next = n3;
         n3.next = n4;
         n4.next = n5;
         n5.next = n6;
         n6.next = n7;
-        n7.next = null;
+        n7.next = n8;
+        n8.next = null;*/
+
+        n1.next = new ListNode(2);
+        n1.next.next = new ListNode(3);
+        n1.next.next.next = new ListNode(3);
+        n1.next.next.next.next = new ListNode(4);
+        n1.next.next.next.next.next = new ListNode(4);
+        n1.next.next.next.next.next.next = new ListNode(5);
         T57 t = new T57();
-        ListNode p = t.deleteDuplication(n1);
+        ListNode p = t.deleteDuplication2(n1);
         while (p != null) {
             System.out.print(p.val + "->");
             p = p.next;
         }
     }
 
+
+    public ListNode deleteDuplication2(ListNode pHead) {
+        if (pHead == null) {
+            return null;
+        }
+
+        ListNode head = findHead(pHead);
+        if (head == null) {
+            return null;
+        }
+
+        ListNode pre = head;
+        ListNode node = pre.next;
+        while (node != null) {
+            ListNode next = findHead(node);
+            if (next != pre.next) {
+                pre.next = next;
+            }
+            if (next == null) {
+                break;
+            }
+            pre = next;
+            node = pre.next;
+        }
+        return head;
+    }
+
+
+    private ListNode findHead(ListNode head) {
+        ListNode node = head;
+        int val = node.val;
+        while (node.next != null) {
+            if (node.val != node.next.val) {
+                return node;
+            } else {
+                val = node.val;
+                while (node.val == val) {
+                    node = node.next;
+                    if (node == null) { //这种情况表明最后几个元素是重复的;
+                        return null;
+                    }
+                }
+            }
+        }
+        return node;
+    }
 
 }

@@ -13,7 +13,7 @@ import java.util.Queue;
  * 特别注意： 在递归时，递归函数的参数一定要是char ** ，这样才能保证每次递归后指向字符串的指针会随着递归的进行而移动！！！
  * <p>
  * 题目指定了使用前序遍历的方法,如果么有指定,单纯的实现序列化,可以使用层遍历的方法,更为便捷;
- * TODO:对于该题目的一个拓展:题目指定的是前序遍历,如果是后续呢?如果是中序呢?另外要熟练<<算法4th>>中关于二叉树的讲解,练习递归;
+ * TODO:对于该题目的一个拓展:题目指定的是前序遍历,如果是后续呢?如果是中序呢?另外要熟练<<算法4th>>中关于二叉树的讲解,练习递归;这种递归好像和之前的想法不一样,疑惑的地方是不知道怎么就返回了,原来是在这判断节点为null的情况下返回;
  */
 public class T62 {
 
@@ -54,7 +54,7 @@ public class T62 {
     TreeNode deserializeCore(Queue<String> queue) {
         String value = queue.poll();
         if (value.equals("#")) {
-            return null;
+            return null;  //核心在这,在这里返回null了,所以一次递归就结束
         }
 
         //这个head就是queue中的首节点,最外层的节点;
@@ -94,7 +94,9 @@ public class T62 {
         T62 t = new T62();
         t.Serialize(node0);
         System.out.println(t.sb);
-        t.Deserialize(t.sb.toString());
+        TreeNode node = t.Deserialize(t.sb.toString());
+        t.sb = new StringBuilder();
+        System.out.println(t.Serialize(node));
     }
 }
 
