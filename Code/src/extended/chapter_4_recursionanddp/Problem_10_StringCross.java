@@ -6,7 +6,7 @@ package extended.chapter_4_recursionanddp;
  * Desc:字符串的交错组成,给定三个字符串s1,s2,aim,判定aim中是否仅包含s1,和s2中的所有字符,并且相对顺序一样
  */
 public class Problem_10_StringCross {
-    //我的思路,不使用动态规划的方法;
+    //我的思路,不使用动态规划的方法;这个方法确实可以,不存在重复数字的干扰问题啊
     public static boolean isCross0(String str1, String str2, String aim) {
 
         if (str1 == null || str2 == null || aim == null) {
@@ -120,8 +120,8 @@ public class Problem_10_StringCross {
 
     public static void main(String[] args) {
         String str1 = "1234";
-        String str2 = "abcd";
-        String aim = "1a23bcd4";
+        String str2 = "a22bcd";
+        String aim = "1a2232bcd4";
         System.out.println(isCross1(str1, str2, aim));
         System.out.println(isCross2(str1, str2, aim));
         System.out.println(isCross0(str1, str2, aim));

@@ -28,18 +28,24 @@ public class Problem_08_LCSubstring {
         return str1.substring(end - max + 1, end + 1);
     }
 
+    //这个方法最终返回的是动态数组,但是我们最终要的是位置,所以在这里还是返回位置吧,返回数组之后还得在遍历一遍;
     public static int[][] getdp(char[] str1, char[] str2) {
         int[][] dp = new int[str1.length][str2.length];
+        //初始化行,s1中某一位的字母和s2[0]相等,就将该位置为1
         for (int i = 0; i < str1.length; i++) {
             if (str1[i] == str2[0]) {
                 dp[i][0] = 1;
             }
         }
+
+        //初始化列
         for (int j = 1; j < str2.length; j++) {
             if (str1[0] == str2[j]) {
                 dp[0][j] = 1;
             }
         }
+
+        //开始遍历吧;
         for (int i = 1; i < str1.length; i++) {
             for (int j = 1; j < str2.length; j++) {
                 if (str1[i] == str2[j]) {
@@ -94,7 +100,6 @@ public class Problem_08_LCSubstring {
 //        System.out.println(lcst1(str1, str2));
 //        System.out.println(lcst2(str1, str2));
         System.out.println(fun1(str1, str2));
-
     }
 
     //##########################我的方法###########################

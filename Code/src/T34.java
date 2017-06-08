@@ -67,4 +67,40 @@ public class T34 {
         }
         return ugly;
     }
+
+    public int GetUglyNumber_Solution2(int index) {
+        if (index < 0) {
+            return 0;
+        }
+
+        int[] arr = new int[index];
+        arr[0] = 1;
+        int nextIndex = 1;
+
+        //下列三个index的含义是，N分别乘以indexN，所得到的值一定是比min大的；
+        int index2 = 0;
+        int index3 = 0;
+        int index5 = 0;
+
+        while (nextIndex < index) {
+            int min = Math.min(2 * arr[index2], Math.min(3 * arr[index3], 5 * arr[index5]));
+            arr[nextIndex] = min;
+
+            while (2 * arr[index2] <= min) {
+                index2++;
+            }
+
+            while (3 * arr[index3] <= min) {
+                index3++;
+            }
+
+            while (5 * arr[index5] <= min) {
+                index5++;
+            }
+
+            nextIndex++;
+        }
+
+        return arr[index - 1];
+    }
 }

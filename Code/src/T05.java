@@ -34,6 +34,16 @@ public class T05 {
         h4.next = null;
 
         System.out.println(new T05().printListFromTailToHead(head));
+//        new T05().func(head);
+    }
 
+    //从尾到头打印节点;
+    void func(ListNode node){
+        if (node == null){
+            return ;
+        }
+
+        func(node.next);
+        System.out.println(node.val);
     }
 }

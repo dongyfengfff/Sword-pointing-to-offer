@@ -46,14 +46,14 @@ public class T08 {
 
         int low = 0 ; int high = array.length - 1;
         while(low < high){
-            int mid = low + (high - low) / 2;
+            int mid = low + (high - low) / 2; //这样写其实和 mid = (low + high)/2 的值是相同的，但是 low + high 可能会溢出
 
             //由于本题的特殊性,只需要跟array[high]比较就可以了;
             if(array[mid] > array[high]){  //mid大
                 low = mid + 1;  //那么范围肯定在mid+1到high之间了;
-            }else if(array[mid] == array[high]){
+            }else if(array[mid] == array[high]){//我们本来是找最小,那么既然mid==high,何不让high的游标左移一位呢,这样没有影响;
                 high = high - 1;
-            }else{    //mid小;
+            }else{    //array[mid] < array[high], 也许array[mid]就是最小值；
                 high = mid;  //这里没有将high设为mid-1,因为mid很可能就是最小值,此时的最小值一定在low到mid之间;
             }
         }

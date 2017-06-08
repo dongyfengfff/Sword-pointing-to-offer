@@ -4,6 +4,8 @@ package extended.chapter_4_recursionanddp;
  * Author: zhangxin
  * Time: 2016/12/29 0029.
  * Desc:最小编辑代价,ic->插入的代价,dc->删除的代价,rc->替换的代价
+ *
+ * NOTE:这里生成dp的方式和之前不同,之前dp的长度就是s1的长度,现在需要长度+1,需要一个前面的0,这样便于实现;其实你不加1也是可以实现的,但是在初始化行列时不方便;
  */
 public class Problem_09_EditCost {
 

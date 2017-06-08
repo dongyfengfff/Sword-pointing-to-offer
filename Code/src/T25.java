@@ -16,32 +16,10 @@ public class T25 {
         if (root == null) {
             return lists;
         }
-        findCore(root, target);
+//        findCore(root, target);
+        findPathCore(root, target);
         return lists;
     }
-
-    private void findCore11111(TreeNode root, int target) {
-        if (root == null) {
-            return;
-        }
-
-        list.add(root.val);
-        if (root.val == target) {
-            ArrayList<Integer> list0 = new ArrayList<Integer>();
-            list0.addAll(list);
-            lists.add(list0);
-        }
-
-        findCore11111(root.left, target - root.val);
-        if (root.left != null) {
-            list.remove(list.size() - 1);
-        }
-        findCore11111(root.right, target - root.val);
-        if (root.right != null) {
-            list.remove(list.size() - 1);
-        }
-    }
-
 
     private void findCore(TreeNode root, int target) {
         if (root == null) {
@@ -56,6 +34,8 @@ public class T25 {
                 list0.addAll(list);
                 lists.add(list0);
             }
+            //NOTE:我在这添加一个return 应该没问题吧......
+            return;
         }
 
 
@@ -66,6 +46,36 @@ public class T25 {
         findCore(root.right, target - root.val);
         if (root.right != null) {
             list.remove(list.size() - 1);
+        }
+    }
+
+
+    //首先明确我这是先序遍历,然后我用的是递归;
+    // 我能确保传入的节点不是空的;
+    void findPathCore(TreeNode root, int target) {
+        //上来就判断是不是根节点;
+        if (root.left == null && root.right == null) {
+            list.add(root.val);
+            if (root.val == target) {
+                ArrayList<Integer> tmp = new ArrayList<Integer>();
+                tmp.addAll(list);
+                lists.add(tmp);
+            }
+            return;
+        }
+
+        list.add(root.val);
+
+        //note：明确一点：node都是由父节点来删除的，根节点永远不会被删除；
+        if (root.left != null) {
+            findPathCore(root.left, target - root.val);
+            list.remove(list.size() - 1); //此时删除的节点是当前node的left，而不是node；
+        }
+
+
+        if (root.right != null) {
+            findPathCore(root.right, target - root.val);
+            list.remove(list.size() - 1);   //此时删除的节点是当前node的right，而不是node；
         }
     }
 
@@ -107,5 +117,36 @@ public class T25 {
 
         T25 t25 = new T25();
         System.out.println(t25.FindPath(root, 22));
+//        System.out.println(t25.FindPath2(root,22));
+    }
+
+
+    //前面的解法，问题都纠结在对于节点的删除上了，如果我们直接把list作为参数，是不是可以免去节点的删除；
+    //NOTE：失败的尝试，只有target的值还保留了，但是将list作为参数，值是会改变的！！！
+    public ArrayList<ArrayList<Integer>> FindPath2(TreeNode root, int target) {
+        ArrayList<Integer> my = new ArrayList<Integer>();
+        FindPathCore2(root, target, my);
+        return lists;
+    }
+
+    private void FindPathCore2(TreeNode root, int target, ArrayList<Integer> my) {
+        if (root.left == null && root.right == null) {
+            my.add(root.val);
+            if (root.val == target) {
+                ArrayList<Integer> list_tmp = new ArrayList<Integer>();
+                list_tmp.addAll(my);
+                lists.add(list_tmp);
+            }
+            return;
+        }
+
+        my.add(root.val);
+        if (root.left != null) {
+            FindPathCore2(root.left, target - root.val, my);
+        }
+
+        if (root.right != null) {
+            FindPathCore2(root.right, target - root.val, my);
+        }
     }
 }

@@ -226,6 +226,22 @@ public class Problem_01_FibonacciProblem {
         return res;
     }
 
+    //思路错误,这是个三阶的,不要弄成4维数组;
+    public static int c222(int n) {
+        if (n < 1) {
+            return 0;
+        }
+        if (n == 1 || n == 2 || n == 3) {
+            return n;
+        }
+        int res = 0;
+        int[] tmp = {0, 1, 2,3};
+        for (int i = 4; i <= n; i++) {
+            tmp[i%4] = tmp[(i-1)%4]+tmp[(i-3)%4];
+        }
+        return tmp[n % 4];
+    }
+
     //数学方法,使用矩阵加速;
     public static int c3(int n) {
         if (n < 1) {
@@ -240,8 +256,8 @@ public class Problem_01_FibonacciProblem {
     }
 
     public static void main(String[] args) {
-        int n = 20;
-        System.out.println(f1(n));
+        int n = 30;
+/*        System.out.println(f1(n));
         System.out.println(f2(n));
         System.out.println(f22(n));
         System.out.println(f3(n));
@@ -250,15 +266,16 @@ public class Problem_01_FibonacciProblem {
         System.out.println(s1(n));
         System.out.println(s2(n));
         System.out.println(s3(n));
-        System.out.println("===");
+        System.out.println("===");*/
 
         System.out.println(c1(n));
         System.out.println(c2(n));
         System.out.println(c22(n));
+        System.out.println(c222(n));
         System.out.println(c3(n));
         System.out.println("===");
 
-        System.out.println(integerPower(3, 10));
+//        System.out.println(integerPower(3, 10));
 
     }
 }

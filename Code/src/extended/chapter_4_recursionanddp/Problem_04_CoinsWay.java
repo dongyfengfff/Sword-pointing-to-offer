@@ -133,11 +133,33 @@ public class Problem_04_CoinsWay {
         return dp[aim];
     }
 
+    public static int f1(int[] arr, int aim) {
+
+        int[] dp = new int[aim + 1];
+
+        //初始化第一行
+        for (int i = 0; i < aim + 1; i += arr[0]) {
+            dp[i] = 1;
+        }
+
+        for (int i = 1; i < arr.length; i++) {
+            for (int j = arr[i]; j < aim+1; j++) {
+                dp[j] += dp[j - arr[i]];
+            }
+        }
+
+        return dp[aim];
+    }
+
+
     public static void main(String[] args) {
         int[] coins = {2, 3, 5};// { 10, 5, 1, 25 };
         int aim = 15;//2000;
 
-
+        int i = f1(coins, aim);
+        int j = coins5(coins, aim);
+        System.out.println(i);
+        System.out.println(j);
         /*long start = 0;
         long end = 0;
         System.out.println("===========暴力递归的方法===========");
@@ -156,7 +178,7 @@ public class Problem_04_CoinsWay {
 
 //        System.out.println("=====动态规划O(N*(aim^2))的方法=====");
 //        start = System.currentTimeMillis();
-        System.out.println(coins3(coins, aim));
+//        System.out.println(coins3(coins, aim));
 //        end = System.currentTimeMillis();
 //        System.out.println("cost time : " + (end - start) + "(ms)");
 

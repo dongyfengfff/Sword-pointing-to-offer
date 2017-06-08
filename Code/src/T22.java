@@ -43,8 +43,10 @@ public class T22 {
 
     public static void main(String[] args) {
         int[] a = {1, 2, 3, 4, 5};
-        int[] b = {4, 5, 3, 2, 1};
+//        int[] b = {4, 5, 3, 2, 1};
+        int[] b = {1, 3, 5, 1, 2};
         System.out.println(new T22().IsPopOrder(a, b));
+        System.out.println(new T22().IsPopOrder2(a, b));
     }
 
 
@@ -62,7 +64,7 @@ public class T22 {
             if (pushA[i] == popA[j]) {
                 j++;
             } else { //现在的前提是:当前的 A[i] 和 B[j] 的数不相等;
-                if ((!s.isEmpty()) && (s.peek()==popA[j])) {
+                if ((!s.isEmpty()) && (s.peek() == popA[j])) {
                     s.pop();
                     j++;
                     i--;
@@ -72,11 +74,37 @@ public class T22 {
             }
         }
 
-        while (!s.isEmpty()&&j<lenB){
-            if (s.pop()!=popA[j]){
+        while (!s.isEmpty() && j < lenB) {
+            if (s.pop() != popA[j]) {
                 return false;
             }
             j++;
+        }
+        return true;
+    }
+
+
+    //这个逻辑性更好;
+    public boolean IsPopOrder2(int[] pushA, int[] popA) {
+        Stack<Integer> stack = new Stack<Integer>();
+        int indexPush = 0;
+        int indexPop = 0;
+        stack.push(pushA[indexPush]);
+        indexPush++;
+
+        while (indexPush < pushA.length) {
+            if (!stack.isEmpty() && stack.peek() == popA[indexPop]) {
+                stack.pop();
+                indexPop++;
+            } else {
+                stack.push(pushA[indexPush]);
+                indexPush++;
+            }
+        }
+        while (!stack.isEmpty()) {
+            if (stack.pop() != popA[indexPop++]) {
+                return false;
+            }
         }
         return true;
     }

@@ -52,7 +52,6 @@ public class T06 {
                 root.right = reConstructBinaryTree(pre, i - startIn + startPre + 1, endPre, in, i + 1, endIn);
             }
         }
-
         return root;
     }
 

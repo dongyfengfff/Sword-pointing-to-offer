@@ -5,7 +5,7 @@
  * 解题思路:
  */
 public class T32 {
-    // 所有数字中个位上显示为1,十位上显示为1,百位上显示为1;
+    // 所有数字中个位上显示为1,十位上显示为1,百位上显示为1。。。;
     public int NumberOf1Between1AndN_Solution(int n) {
         int count = 0;
         int a, b;
@@ -26,7 +26,7 @@ public class T32 {
     //#####详细的理解
     public int NumberOf1Between1AndN_Solution1(int n){
         int count = 0;//计数用的count;
-        int a, b;
+        int a, b;  //a:         b:
         for (int i = 1; i <= n; i *= 10) {  //为什么要这样递增,i的变化是:1=>10=>100=>1000...  这是对应的个位/十位/百位...各个位分别统计;
             a = n / i;  //统计对应位,大头;
             count += (a + 8) / 10 * i ;
@@ -41,7 +41,8 @@ public class T32 {
 }
 
 /*
-eg:
+eg:下面以一个两千多的数据为例,并只找特定一位上的,比如说百位的;
+
 n = 2010	判断其百位  200
 0100~0199	->100
 1100~1199	->100

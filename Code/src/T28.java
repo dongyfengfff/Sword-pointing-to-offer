@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
+import java.util.TreeSet;
 
 /**
  * Author: zhangxin
@@ -132,7 +132,7 @@ public class T28 {
         }
         func(0);
         System.out.println(list.size());
-        HashSet<String> set = new HashSet<String>();
+        TreeSet<String> set = new TreeSet<String>();
         for(String s:list){
             set.add(s);
         }
